@@ -3,7 +3,6 @@ package com.recycler.android.animator.list.ui;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -100,12 +99,6 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
         this.context = context;
     }
 
-
-    @Override
-    public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-        return false;
-    }
-
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
         int pos = viewHolder.getAdapterPosition();
@@ -161,7 +154,7 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
         super.onChildDraw(c, recyclerView, viewHolder, translationX, dY, actionState, isCurrentlyActive);
     }
 
-    private synchronized void recoverSwipedItem(){
+    protected synchronized void recoverSwipedItem(){
         while (!recoverQueue.isEmpty()){
             int pos = recoverQueue.poll();
             if (pos > -1) {
@@ -188,16 +181,12 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
                     ),
                     button.getBitmap(), pos
             );
-
-
-            right = left;
         }
     }
 
     protected abstract void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons);
 
     public static class UnderlayButton {
-        private View view;
         private String text;
         private Bitmap bitmap;
         private int color;
@@ -236,30 +225,6 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
             this.pos = pos;
         }
 
-        public void onDraw(Canvas c, RectF rect, int pos){
-            Paint p = new Paint();
-
-            // Draw background
-            p.setColor(color);
-            c.drawRect(rect, p);
-
-            // Draw Text
-            p.setColor(Color.WHITE);
-            //p.setTextSize(LayoutHelper.getPx(.getAppContext(), 12));
-
-            Rect r = new Rect();
-            float cHeight = rect.height();
-            float cWidth = rect.width();
-            p.setTextAlign(Paint.Align.LEFT);
-            p.getTextBounds(text, 0, text.length(), r);
-            float x = cWidth / 2f - r.width() / 2f - r.left;
-            float y = cHeight / 2f + r.height() / 2f - r.bottom;
-            c.drawText(text, rect.left + x, rect.top + y, p);
-
-            clickRegion = rect;
-            this.pos = pos;
-        }
-
         public Bitmap getBitmap() {
             return bitmap;
         }
@@ -273,45 +238,3 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
         void onClick(int pos);
     }
 }
-
-/* public static void createBaseCallback(Context context, RecyclerView recyclerView) {
-        SwipeHelper swipeHelper = new SwipeHelper(context, recyclerView) {
-            @Override
-            public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
-                underlayButtons.add(new UnderlayButton(
-                        "Delete",
-                        0,
-                        Color.parseColor("#FF3C30"),
-                        new UnderlayButtonClickListener() {
-                            @Override
-                            public void onClick(int pos) {
-                                // TODO: onDelete
-                            }
-                        }
-                ));
-
-                underlayButtons.add(new UnderlayButton(
-                        "Transfer",
-                        0,
-                        Color.parseColor("#FF9502"),
-                        new UnderlayButtonClickListener() {
-                            @Override
-                            public void onClick(int pos) {
-                                // TODO: OnTransfer
-                            }
-                        }
-                ));
-                underlayButtons.add(new UnderlayButton(
-                        "Unshare",
-                        0,
-                        Color.parseColor("#C7C7CB"),
-                        new UnderlayButtonClickListener() {
-                            @Override
-                            public void onClick(int pos) {
-                                // TODO: OnUnshare
-                            }
-                        }
-                ));
-            }
-        };
-    }*/

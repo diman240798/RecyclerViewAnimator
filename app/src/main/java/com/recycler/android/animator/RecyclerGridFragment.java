@@ -1,8 +1,5 @@
 package com.recycler.android.animator;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,12 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.recycler.android.animator.list.ItemAdapter;
-import com.recycler.android.animator.list.ui.OnStartDragListener;
 import com.recycler.android.animator.list.SimpleItemTouchHelperCallback;
-import com.recycler.android.animator.list.ui.SwipeHelper;
+import com.recycler.android.animator.list.ui.OnStartDragListener;
 import com.recycler.android.itemtouchhelperdemo.R;
-
-import java.util.List;
 
 public class RecyclerGridFragment extends Fragment implements OnStartDragListener {
 

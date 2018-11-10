@@ -8,13 +8,11 @@ import android.graphics.Color;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.view.LayoutInflater;
-import android.view.View;
 
-import com.recycler.android.itemtouchhelperdemo.R;
 import com.recycler.android.animator.list.ui.ItemTouchHelperAdapter;
 import com.recycler.android.animator.list.ui.ItemTouchHelperViewHolder;
 import com.recycler.android.animator.list.ui.SwipeHelper;
+import com.recycler.android.itemtouchhelperdemo.R;
 
 import java.util.List;
 

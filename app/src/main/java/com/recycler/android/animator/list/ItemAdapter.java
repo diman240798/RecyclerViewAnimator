@@ -8,14 +8,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.recycler.android.animator.list.ui.ItemTouchHelperAdapter;
+import com.recycler.android.animator.list.ui.OnStartDragListener;
+import com.recycler.android.itemtouchhelperdemo.R;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import com.recycler.android.itemtouchhelperdemo.R;
-import com.recycler.android.animator.list.ui.ItemTouchHelperAdapter;
-import com.recycler.android.animator.list.ui.OnStartDragListener;
 public class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder>
         implements ItemTouchHelperAdapter {
 
