@@ -123,7 +123,7 @@ public class SimpleItemTouchHelperCallback extends SwipeHelper {
                 new UnderlayButtonClickListener() {
                     @Override
                     public void onClick(int pos) {
-                        mAdapter.onItemDismiss(viewHolder.getAdapterPosition());
+                        mAdapter.onItemDismiss(pos);
                     }
                 }
         ));
