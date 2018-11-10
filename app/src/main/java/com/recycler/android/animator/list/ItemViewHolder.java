@@ -27,6 +27,7 @@ public class ItemViewHolder extends RecyclerView.ViewHolder implements
         Context context = itemView.getContext();
         itemView.setBackgroundColor(context.getResources().getColor(R.color.colorAccent));
         handleView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_handle_white));
+        textView.setTextColor(context.getResources().getColor(R.color.white));
     }
 
     @Override
@@ -34,5 +35,6 @@ public class ItemViewHolder extends RecyclerView.ViewHolder implements
         Context context = itemView.getContext();
         itemView.setBackgroundColor(0);
         handleView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_handle_grey));
+        textView.setTextColor(context.getResources().getColor(R.color.textlight1));
     }
 }

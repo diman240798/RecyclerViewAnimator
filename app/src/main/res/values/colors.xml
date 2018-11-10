@@ -9,6 +9,7 @@
     <color name="transparent">#00000000</color>
     <color name="red500">#db4437</color>
     <color name="textlight">#546e7a</color>
+    <color name="textlight1">#757575</color>
     <color name="textlight30">#4d6b8d9c</color>
     <color name="border">#e7e7e7</color>
 </resources>
