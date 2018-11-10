@@ -5,7 +5,7 @@ android {
     buildToolsVersion '27.0.3'
 
     defaultConfig {
-        applicationId "co.paulburke.android.itemtouchhelperdemo"
+        applicationId "com.chaban.recycler.animator"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 3

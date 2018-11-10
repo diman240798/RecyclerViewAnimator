@@ -1,23 +1,6 @@
-/*
- * Copyright (C) 2015 Paul Burke
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package co.paulburke.android.itemtouchhelperdemo;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -35,22 +18,17 @@ import java.util.List;
 import co.paulburke.android.itemtouchhelperdemo.helper.ItemTouchHelperAdapter;
 import co.paulburke.android.itemtouchhelperdemo.helper.ItemTouchHelperViewHolder;
 import co.paulburke.android.itemtouchhelperdemo.helper.OnStartDragListener;
-
-/**
- * Simple RecyclerView.Adapter that implements {@link ItemTouchHelperAdapter} to respond to move and
- * dismiss events from a {@link android.support.v7.widget.helper.ItemTouchHelper}.
- *
- * @author Paul Burke (ipaulpro)
- */
 public class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerListAdapter.ItemViewHolder>
         implements ItemTouchHelperAdapter {
 
     private final List<String> mItems = new ArrayList<>();
 
     private final OnStartDragListener mDragStartListener;
+    private final Context context;
 
     public RecyclerListAdapter(Context context, OnStartDragListener dragStartListener) {
         mDragStartListener = dragStartListener;
+        this.context = context;
         mItems.addAll(Arrays.asList(context.getResources().getStringArray(R.array.dummy_items)));
     }
 
@@ -99,7 +77,7 @@ public class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerListAdapte
      * Simple example of a view holder that implements {@link ItemTouchHelperViewHolder} and has a
      * "handle" view that initiates a drag event when touched.
      */
-    public static class ItemViewHolder extends RecyclerView.ViewHolder implements
+    public class ItemViewHolder extends RecyclerView.ViewHolder implements
             ItemTouchHelperViewHolder {
 
         public final TextView textView;
@@ -113,12 +91,15 @@ public class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerListAdapte
 
         @Override
         public void onItemSelected() {
-            itemView.setBackgroundColor(Color.LTGRAY);
+            //itemView.setBackgroundColor(Color.LTGRAY);
+            itemView.setBackgroundColor(context.getResources().getColor(R.color.colorAccent));
+            handleView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_handle_white));
         }
 
         @Override
         public void onItemClear() {
             itemView.setBackgroundColor(0);
+            handleView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_handle_grey));
         }
     }
 }
