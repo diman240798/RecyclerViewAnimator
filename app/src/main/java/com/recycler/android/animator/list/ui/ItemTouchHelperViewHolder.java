@@ -1,13 +1,7 @@
-package co.paulburke.android.itemtouchhelperdemo.helper;
+package com.recycler.android.animator.list.ui;
 
 import android.support.v7.widget.helper.ItemTouchHelper;
 
-/**
- * Interface to notify an item ViewHolder of relevant callbacks from {@link
- * android.support.v7.widget.helper.ItemTouchHelper.Callback}.
- *
- * @author Paul Burke (ipaulpro)
- */
 public interface ItemTouchHelperViewHolder {
 
     /**

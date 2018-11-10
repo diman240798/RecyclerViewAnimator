@@ -1,13 +1,8 @@
-package co.paulburke.android.itemtouchhelperdemo.helper;
+package com.recycler.android.animator.list.ui;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
-/**
- * Interface to listen for a move or dismissal event from a {@link ItemTouchHelper.Callback}.
- *
- * @author Paul Burke (ipaulpro)
- */
 public interface ItemTouchHelperAdapter {
 
     /**
@@ -25,7 +20,6 @@ public interface ItemTouchHelperAdapter {
      * @see RecyclerView.ViewHolder#getAdapterPosition()
      */
     boolean onItemMove(int fromPosition, int toPosition);
-
 
     /**
      * Called when an item has been dismissed by a swipe.<br/>

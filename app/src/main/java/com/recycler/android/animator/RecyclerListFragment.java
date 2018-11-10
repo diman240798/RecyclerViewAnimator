@@ -1,4 +1,4 @@
-package co.paulburke.android.itemtouchhelperdemo;
+package com.recycler.android.animator;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,10 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import co.paulburke.android.itemtouchhelperdemo.helper.OnStartDragListener;
-import co.paulburke.android.itemtouchhelperdemo.helper.SimpleItemTouchHelperCallback;
+import com.recycler.android.animator.list.SimpleItemTouchHelperCallback;
+import com.recycler.android.animator.list.ItemAdapter;
+import com.recycler.android.animator.list.ui.OnStartDragListener;
 
-    public class RecyclerListFragment extends Fragment implements OnStartDragListener {
+public class RecyclerListFragment extends Fragment implements OnStartDragListener {
 
     private ItemTouchHelper mItemTouchHelper;
 
@@ -30,7 +31,7 @@ import co.paulburke.android.itemtouchhelperdemo.helper.SimpleItemTouchHelperCall
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerListAdapter adapter = new RecyclerListAdapter(getActivity(), this);
+        ItemAdapter adapter = new ItemAdapter(getActivity(), this);
 
         RecyclerView recyclerView = (RecyclerView) view;
         recyclerView.setHasFixedSize(true);

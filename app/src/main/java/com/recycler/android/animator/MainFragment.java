@@ -1,4 +1,4 @@
-package co.paulburke.android.itemtouchhelperdemo;
+package com.recycler.android.animator;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -7,9 +7,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-/**
- * @author Paul Burke (ipaulpro)
- */
+import com.recycler.android.itemtouchhelperdemo.R;
+
 public class MainFragment extends ListFragment {
 
     public interface OnListItemClickListener {

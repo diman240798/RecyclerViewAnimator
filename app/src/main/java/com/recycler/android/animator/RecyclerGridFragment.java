@@ -1,4 +1,4 @@
-package co.paulburke.android.itemtouchhelperdemo;
+package com.recycler.android.animator;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,12 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import co.paulburke.android.itemtouchhelperdemo.helper.OnStartDragListener;
-import co.paulburke.android.itemtouchhelperdemo.helper.SimpleItemTouchHelperCallback;
+import com.recycler.android.animator.list.ItemAdapter;
+import com.recycler.android.animator.list.ui.OnStartDragListener;
+import com.recycler.android.animator.list.SimpleItemTouchHelperCallback;
+import com.recycler.android.itemtouchhelperdemo.R;
 
-/**
- * @author Paul Burke (ipaulpro)
- */
 public class RecyclerGridFragment extends Fragment implements OnStartDragListener {
 
     private ItemTouchHelper mItemTouchHelper;
@@ -33,7 +32,7 @@ public class RecyclerGridFragment extends Fragment implements OnStartDragListene
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final RecyclerListAdapter adapter = new RecyclerListAdapter(getActivity(), this);
+        final ItemAdapter adapter = new ItemAdapter(getActivity(), this);
 
         RecyclerView recyclerView = (RecyclerView) view;
         recyclerView.setHasFixedSize(true);

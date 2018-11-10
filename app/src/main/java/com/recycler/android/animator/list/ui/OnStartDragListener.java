@@ -1,10 +1,7 @@
-package co.paulburke.android.itemtouchhelperdemo.helper;
+package com.recycler.android.animator.list.ui;
 
 import android.support.v7.widget.RecyclerView;
 
-/**
- * Listener for manual initiation of a drag.
- */
 public interface OnStartDragListener {
 
     /**
