@@ -1,6 +1,7 @@
 package com.recycler.android.animator.list.ui;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -22,6 +23,9 @@ import java.util.Queue;
 
 public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
 
+
+    protected final Context context;
+
     @Override
     public boolean isItemViewSwipeEnabled() {
         return true;
@@ -40,62 +44,6 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
     private float swipeThreshold = 0.5f;
     private Map<Integer, List<UnderlayButton>> buttonsBuffer;
     private Queue<Integer> recoverQueue;
-
-    public static void createBaseCallback(Context context, RecyclerView recyclerView) {
-        SwipeHelper swipeHelper = new SwipeHelper(context, recyclerView) {
-            @Override
-            public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
-                underlayButtons.add(new UnderlayButton(
-                        "Delete",
-                        0,
-                        Color.parseColor("#FF3C30"),
-                        new UnderlayButtonClickListener() {
-                            @Override
-                            public void onClick(int pos) {
-                                // TODO: onDelete
-                            }
-                        }
-                ));
-
-                underlayButtons.add(new UnderlayButton(
-                        "Transfer",
-                        0,
-                        Color.parseColor("#FF9502"),
-                        new UnderlayButtonClickListener() {
-                            @Override
-                            public void onClick(int pos) {
-                                // TODO: OnTransfer
-                            }
-                        }
-                ));
-                underlayButtons.add(new UnderlayButton(
-                        "Unshare",
-                        0,
-                        Color.parseColor("#C7C7CB"),
-                        new UnderlayButtonClickListener() {
-                            @Override
-                            public void onClick(int pos) {
-                                // TODO: OnUnshare
-                            }
-                        }
-                ));
-            }
-        };
-    }
-
-
-    private GestureDetector.SimpleOnGestureListener gestureListener = new GestureDetector.SimpleOnGestureListener(){
-        @Override
-        public boolean onSingleTapConfirmed(MotionEvent e) {
-            for (UnderlayButton button : buttons){
-                if(button.onClick(e.getX(), e.getY()))
-                    break;
-            }
-
-            return true;
-        }
-    };
-
 
 
     private View.OnTouchListener onTouchListener = new View.OnTouchListener() {
@@ -122,10 +70,21 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
         }
     };
 
-    private SwipeHelper(Context context, RecyclerView recyclerView) {
+    public SwipeHelper(Context context, RecyclerView recyclerView) {
         super(0, ItemTouchHelper.LEFT);
         this.recyclerView = recyclerView;
         this.buttons = new ArrayList<>();
+        GestureDetector.SimpleOnGestureListener gestureListener = new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+                for (UnderlayButton button : buttons) {
+                    if (button.onClick(e.getX(), e.getY()))
+                        break;
+                }
+                return true;
+            }
+        };
+
         this.gestureDetector = new GestureDetector(context, gestureListener);
         this.recyclerView.setOnTouchListener(onTouchListener);
         buttonsBuffer = new HashMap<>();
@@ -138,8 +97,7 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
                     return super.add(o);
             }
         };
-
-        attachSwipe();
+        this.context = context;
     }
 
 
@@ -212,45 +170,44 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
         }
     }
 
-    private void drawButtons(Canvas c, View itemView, List<UnderlayButton> buffer, int pos, float dX){
+    private void drawButtons(Canvas c, View itemView, List<UnderlayButton> buffer, int pos, float dX) {
         float right = itemView.getRight();
         float dButtonWidth = (-1) * dX / buffer.size();
 
         for (UnderlayButton button : buffer) {
             float left = right - dButtonWidth;
+            int top = itemView.getTop();
+            int bottom = itemView.getBottom();
             button.onDraw(
                     c,
                     new RectF(
                             left,
-                            itemView.getTop(),
+                            top,
                             right,
-                            itemView.getBottom()
+                            bottom
                     ),
-                    pos
+                    button.getBitmap(), pos
             );
+
 
             right = left;
         }
     }
 
-    public void attachSwipe(){
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(this);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
-    }
-
-    public abstract void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons);
+    protected abstract void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons);
 
     public static class UnderlayButton {
+        private View view;
         private String text;
-        private int imageResId;
+        private Bitmap bitmap;
         private int color;
         private int pos;
         private RectF clickRegion;
         private UnderlayButtonClickListener clickListener;
 
-        public UnderlayButton(String text, int imageResId, int color, UnderlayButtonClickListener clickListener) {
+        public UnderlayButton(String text, Bitmap bitmap, int color, UnderlayButtonClickListener clickListener) {
             this.text = text;
-            this.imageResId = imageResId;
+            this.bitmap = bitmap;
             this.color = color;
             this.clickListener = clickListener;
         }
@@ -262,6 +219,21 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
             }
 
             return false;
+        }
+
+        public void onDraw(Canvas canvas, RectF rect, Bitmap bitmap, int pos){
+
+            Paint paint = new Paint();
+            paint.setColor(color);
+            canvas.drawRect(rect, paint);
+            float cHeight = bitmap.getHeight();
+            float cWidth = bitmap.getWidth();
+            float left = rect.left + (rect.right - rect.left - cWidth) / 2;
+            float top = rect.top + (rect.bottom - rect.top - cHeight) / 2;
+            canvas.drawBitmap(bitmap, left, top , null);
+
+            clickRegion = rect;
+            this.pos = pos;
         }
 
         public void onDraw(Canvas c, RectF rect, int pos){
@@ -287,9 +259,59 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
             clickRegion = rect;
             this.pos = pos;
         }
+
+        public Bitmap getBitmap() {
+            return bitmap;
+        }
+
+        public int getColor() {
+            return color;
+        }
     }
 
     public interface UnderlayButtonClickListener {
         void onClick(int pos);
     }
 }
+
+/* public static void createBaseCallback(Context context, RecyclerView recyclerView) {
+        SwipeHelper swipeHelper = new SwipeHelper(context, recyclerView) {
+            @Override
+            public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
+                underlayButtons.add(new UnderlayButton(
+                        "Delete",
+                        0,
+                        Color.parseColor("#FF3C30"),
+                        new UnderlayButtonClickListener() {
+                            @Override
+                            public void onClick(int pos) {
+                                // TODO: onDelete
+                            }
+                        }
+                ));
+
+                underlayButtons.add(new UnderlayButton(
+                        "Transfer",
+                        0,
+                        Color.parseColor("#FF9502"),
+                        new UnderlayButtonClickListener() {
+                            @Override
+                            public void onClick(int pos) {
+                                // TODO: OnTransfer
+                            }
+                        }
+                ));
+                underlayButtons.add(new UnderlayButton(
+                        "Unshare",
+                        0,
+                        Color.parseColor("#C7C7CB"),
+                        new UnderlayButtonClickListener() {
+                            @Override
+                            public void onClick(int pos) {
+                                // TODO: OnUnshare
+                            }
+                        }
+                ));
+            }
+        };
+    }*/

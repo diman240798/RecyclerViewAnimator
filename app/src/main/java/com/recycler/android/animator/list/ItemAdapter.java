@@ -59,6 +59,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder>
 
     @Override
     public void onItemDismiss(int position) {
+        if (position < 0 || position >= mItems.size())
+            return;
         mItems.remove(position);
         notifyItemRemoved(position);
     }
