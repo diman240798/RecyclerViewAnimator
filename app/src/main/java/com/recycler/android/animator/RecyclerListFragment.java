@@ -34,7 +34,6 @@ public class RecyclerListFragment extends Fragment implements OnStartDragListene
         ItemAdapter adapter = new ItemAdapter(getActivity(), this);
 
         RecyclerView recyclerView = (RecyclerView) view;
-        recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 

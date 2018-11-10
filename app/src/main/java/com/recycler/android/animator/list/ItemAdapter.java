@@ -63,7 +63,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder>
             return;
         mItems.remove(position);
         notifyItemRemoved(position);
-        notifyItemRangeChanged(position,mItems.size());
     }
 
     @Override
